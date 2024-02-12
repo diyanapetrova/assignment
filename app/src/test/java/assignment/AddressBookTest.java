@@ -10,12 +10,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class AddressBookTest {
-    private static final Person alanBarker = new Person("Alan Barker", Sex.MALE, LocalDate.parse("16/03/60", DateTimeFormatter.ofPattern("dd/MM/yy")));
+    private static final Person alanBarker = new Person("Alan Barker", Sex.MALE, LocalDate.parse("15/03/60", DateTimeFormatter.ofPattern("dd/MM/yy")));
+    private static final Person benBrook = new Person("Ben Brook", Sex.MALE, LocalDate.parse("16/03/60", DateTimeFormatter.ofPattern("dd/MM/yy")));
 
     private static final List<Person> people = List.of(
-            new Person("Ben Brook", Sex.MALE, LocalDate.parse("16/03/78", DateTimeFormatter.ofPattern("dd/MM/yy"))),
+            benBrook,
             alanBarker,
             new Person("Lea Barker", Sex.FEMALE, LocalDate.parse("16/05/77", DateTimeFormatter.ofPattern("dd/MM/yy"))));
 
@@ -53,5 +55,52 @@ public class AddressBookTest {
         AddressBook addressBook = new AddressBook(Collections.emptyList());
 
         assertTrue(addressBook.getOldest().isEmpty());
+    }
+
+    @Test
+    void getPersonByName_returnPerson() {
+        AddressBook addressBook = new AddressBook(people);
+
+        Optional<Person> result = addressBook.getPersonByName(alanBarker.name());
+
+        assertTrue(result.isPresent());
+        assertEquals(result.get(), alanBarker);
+    }
+
+    @Test
+    void getPersonByName_returnEmpty() {
+        AddressBook addressBook = new AddressBook(Collections.emptyList());
+
+        Optional<Person> result = addressBook.getPersonByName(alanBarker.name());
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void daysBetween_emptyCollection_returnEmpty() {
+        AddressBook addressBook = new AddressBook(Collections.emptyList());
+
+        Optional<Long> result = addressBook.daysBetween(alanBarker.name(), "name");
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void daysBetween_oneNotFound_returnEmpty() {
+        AddressBook addressBook = new AddressBook(people);
+
+        Optional<Long> result = addressBook.daysBetween(alanBarker.name(), "Name not in the collection.");
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void daysBetween() {
+        AddressBook addressBook = new AddressBook(people);
+
+        Optional<Long> result = addressBook.daysBetween(alanBarker.name(), benBrook.name());
+
+        assertTrue(result.isPresent());
+        assertEquals(result.get(), 1);
     }
 }

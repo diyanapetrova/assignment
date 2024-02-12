@@ -1,5 +1,7 @@
 package assignment;
 
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+
 import org.junit.jupiter.api.Test;
 
 import java.io.FileWriter;
@@ -7,7 +9,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 public class PersonTest {
     @Test

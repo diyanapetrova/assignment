@@ -1,6 +1,6 @@
 package assignment;
 
-import static java.time.format.DateTimeFormatter.*;
+import static java.time.format.DateTimeFormatter.ofPattern;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
