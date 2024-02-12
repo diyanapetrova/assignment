@@ -13,7 +13,7 @@ public class App {
         List<Person> people = Person.parsePeopleFromCSV(file);
         System.out.println(people);
 
-        //Create AddressBook
+        AddressBook addressBook = new AddressBook(people);
 
         //Print results
     }

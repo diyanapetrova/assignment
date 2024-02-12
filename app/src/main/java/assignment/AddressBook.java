@@ -8,4 +8,8 @@ public class AddressBook {
     public AddressBook(List<Person> people) {
         this.people = people;
     }
+
+    public long count(Sex sex){
+        return people.stream().filter(person -> person.sex() == sex).count();
+    }
 }

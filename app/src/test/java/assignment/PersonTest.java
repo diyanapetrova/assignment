@@ -17,6 +17,7 @@ public class PersonTest {
         generateTestCSV(file, input);
 
         List<Person> result = Person.parsePeopleFromCSV(file);
+
         assertIterableEquals(result, input);
     }
 
