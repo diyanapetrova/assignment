@@ -8,7 +8,7 @@ import java.util.Optional;
  * AddressBook class that keeps a collection of people.
  * <p>
  * It exposes the following functionality:
- * - count number of female or males in the address book
+ * - count number of females or males in the address book
  * - find the oldest person in the address book
  * - count the days between two people's birthdays
  */
@@ -20,10 +20,10 @@ public class AddressBook {
     }
 
     /**
-     * Counts the number of people in the address book by gender.
+     * Counts the number of people in the address book that match the given gender.
      *
-     * @param gender the desired gender
-     * @return the number of people by gender
+     * @param gender the gender to count
+     * @return the number of people with the given gender
      */
     public long countPeopleByGender(Gender gender) {
         return people.stream().filter(person -> person.gender() == gender).count();
@@ -41,11 +41,11 @@ public class AddressBook {
     }
 
     /**
-     * Calculates the number of days between two people birthdays.
+     * Calculates the number of days between two people's birthdays.
      *
      * @param name1 name of the first person
      * @param name2 name of the second person
-     * @return an optional of the number of days or empty if any of the people was not found in the address book
+     * @return an optional of the number of days or empty if any of the people were not found in the address book
      */
     public Optional<Long> countDaysBetweenBirthdays(String name1, String name2) {
         Optional<Person> optionalPerson1 = findPersonByName(name1);

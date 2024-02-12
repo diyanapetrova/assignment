@@ -20,7 +20,7 @@ import java.util.List;
 public record Person(String name, Gender gender, LocalDate birthday) {
 
     /**
-     * Parses a line of CSV file to Person object.
+     * Parses a line of CSV to a Person.
      *
      * @param line of the CSV
      * @return Person
@@ -37,7 +37,7 @@ public record Person(String name, Gender gender, LocalDate birthday) {
     /**
      * Parses a CSV file to a collection of people.
      * <p>
-     * If the data is not in the correct format this would fail.
+     * If the data is not in the correct format a runtime exception will be thrown.
      *
      * @param fileName of the CSV
      * @throws IOException if any IO problems occur during reading
