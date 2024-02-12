@@ -12,13 +12,13 @@ public class App {
     public static void main(String[] args) {
         //Read data
         String file = "AddressBook.txt";
-        List<Person> people = null;
+        List<Person> people;
 
         try {
             people = Person.parsePeopleFromCSV(file);
         } catch (IOException e) {
-            // If we can load data this application is not useful so we crash.
-            throw new RuntimeException(e);
+            // If we can't load data this application is not useful so we crash.
+            throw new IllegalArgumentException(e);
         }
 
         // Create AddressBook
