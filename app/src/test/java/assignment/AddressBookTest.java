@@ -1,6 +1,8 @@
 package assignment;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -10,30 +12,46 @@ import java.util.Collections;
 import java.util.List;
 
 public class AddressBookTest {
+    private static final Person alanBarker = new Person("Alan Barker", Sex.MALE, LocalDate.parse("16/03/60", DateTimeFormatter.ofPattern("dd/MM/yy")));
+
+    private static final List<Person> people = List.of(
+            new Person("Ben Brook", Sex.MALE, LocalDate.parse("16/03/78", DateTimeFormatter.ofPattern("dd/MM/yy"))),
+            alanBarker,
+            new Person("Lea Barker", Sex.FEMALE, LocalDate.parse("16/05/77", DateTimeFormatter.ofPattern("dd/MM/yy"))));
+
     @Test
     void countMales() {
-        AddressBook addressBook = new AddressBook(List.of(
-                new Person("Alan Barker", Sex.MALE, LocalDate.parse("16/03/77", DateTimeFormatter.ofPattern("dd/MM/yy"))),
-                new Person("Alan Barker1", Sex.MALE, LocalDate.parse("16/03/78", DateTimeFormatter.ofPattern("dd/MM/yy"))),
-                new Person("Lea Barker", Sex.FEMALE, LocalDate.parse("16/05/77", DateTimeFormatter.ofPattern("dd/MM/yy")))));
+        AddressBook addressBook = new AddressBook(people);
 
         assertEquals(addressBook.count(Sex.MALE), 2);
     }
 
     @Test
     void countFemales() {
-        AddressBook addressBook = new AddressBook(List.of(
-                new Person("Alan Barker", Sex.MALE, LocalDate.parse("16/03/77", DateTimeFormatter.ofPattern("dd/MM/yy"))),
-                new Person("Alan Barker1", Sex.MALE, LocalDate.parse("16/03/78", DateTimeFormatter.ofPattern("dd/MM/yy"))),
-                new Person("Lea Barker", Sex.FEMALE, LocalDate.parse("16/05/77", DateTimeFormatter.ofPattern("dd/MM/yy")))));
+        AddressBook addressBook = new AddressBook(people);
 
         assertEquals(addressBook.count(Sex.FEMALE), 1);
     }
 
     @Test
-    void countEmpty() {
+    void count_emptyCollection_return0() {
         AddressBook addressBook = new AddressBook(Collections.emptyList());
 
         assertEquals(addressBook.count(Sex.FEMALE), 0);
+    }
+
+    @Test
+    void getOldest_notEmpty_returnPerson() {
+        AddressBook addressBook = new AddressBook(people);
+
+        assertFalse(addressBook.getOldest().isEmpty());
+        assertEquals(addressBook.getOldest().get(), alanBarker);
+    }
+
+    @Test
+    void getOldest_emptyCollection_returnEmpty() {
+        AddressBook addressBook = new AddressBook(Collections.emptyList());
+
+        assertTrue(addressBook.getOldest().isEmpty());
     }
 }
