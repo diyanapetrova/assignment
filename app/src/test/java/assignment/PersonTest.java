@@ -11,10 +11,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class PersonTest {
+
+    private static final Person ALAN_BARKER = new Person("Alan Barker", Gender.MALE, LocalDate.parse("15/03/60", DateTimeFormatter.ofPattern("dd/MM/yy")));
+
     @Test
-    public void parsePeopleFromCSV() {
+    void parsePeopleFromCSV() {
         String file = "test.txt";
-        List<Person> input = List.of(new Person("Alan Barker", Sex.MALE, LocalDate.parse("16/03/77", DateTimeFormatter.ofPattern("dd/MM/yy"))));
+        List<Person> input = List.of(ALAN_BARKER);
         generateTestCSV(file, input);
 
         List<Person> result = Person.parsePeopleFromCSV(file);
@@ -27,8 +30,8 @@ public class PersonTest {
             FileWriter writer = new FileWriter(fileName);
             for (Person person : people) {
                 writer.append(person.name()).append(", ")
-                        .append(person.sex().toString()).append(", ")
-                        .append(person.birthDate().format(DateTimeFormatter.ofPattern("dd/MM/yy")))
+                        .append(person.gender().toString()).append(", ")
+                        .append(person.birthday().format(DateTimeFormatter.ofPattern("dd/MM/yy")))
                         .append("\n");
             }
 

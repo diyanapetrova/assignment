@@ -17,10 +17,10 @@ public class App {
         AddressBook addressBook = new AddressBook(people);
 
         //Print results
-        System.out.println("Number of males: " + addressBook.count(Sex.MALE));
-        System.out.println("The oldest is: " + (addressBook.getOldest().isPresent() ? addressBook.getOldest().get().name() : "Can't find oldest."));
+        System.out.println("Number of males: " + addressBook.countPeopleByGender(Gender.MALE));
+        System.out.println("The oldest is: " + (addressBook.findTheOldest().isPresent() ? addressBook.findTheOldest().get().name() : "Can't find oldest."));
 
-        Optional<Long> daysBetween = addressBook.daysBetween("Bill McKnight", "Paul Robinson");
+        Optional<Long> daysBetween = addressBook.countDaysBetweenBirthdays("Bill McKnight", "Paul Robinson");
         System.out.println(daysBetween.map(days -> "Bill is " + days + " days older than Paul.").orElse("Paul or Bill are not found."));
 
     }
