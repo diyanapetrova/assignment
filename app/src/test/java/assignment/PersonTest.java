@@ -1,5 +1,6 @@
 package assignment;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -15,7 +16,8 @@ import java.util.List;
 
 public class PersonTest {
 
-    private static final Person ALAN_BARKER = new Person("Alan Barker", Gender.MALE, LocalDate.parse("15/03/60", DateTimeFormatter.ofPattern("dd/MM/yy")));
+    private static final Person ALAN_BARKER = new Person("Alan Barker", Gender.MALE,
+            LocalDate.parse("15/03/1960", DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
     @Test
     void parsePeopleFromCSV() throws IOException {
@@ -26,6 +28,30 @@ public class PersonTest {
         List<Person> result = Person.parsePeopleFromCSV(file);
 
         assertIterableEquals(result, input);
+    }
+
+    @Test
+    void parsePeopleFromCSV_yearIsInTheFuture_changeCentury() throws IOException {
+        String file = "test.txt";
+        List<Person> input = List.of(ALAN_BARKER);
+        generateTestCSV(file, generateCorrectInput(input));
+
+        List<Person> result = Person.parsePeopleFromCSV(file);
+
+        assertEquals(result.get(0).birthday().getYear(), 1960);
+    }
+
+    @Test
+    void parsePeopleFromCSV_yearIsInThePast_keep20Base() throws IOException {
+        String file = "test.txt";
+        List<Person> input = List.of(
+                new Person("Alan Barker Junior", Gender.MALE,
+                        LocalDate.parse("15/03/23", DateTimeFormatter.ofPattern("dd/MM/yy"))));
+        generateTestCSV(file, generateCorrectInput(input));
+
+        List<Person> result = Person.parsePeopleFromCSV(file);
+
+        assertEquals(result.get(0).birthday().getYear(), 2023);
     }
 
     @Test

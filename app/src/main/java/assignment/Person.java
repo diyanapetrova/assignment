@@ -28,9 +28,7 @@ public record Person(String name, Gender gender, LocalDate birthday) {
         String[] data = line.split(", ");
         String name = data[0];
         Gender gender = Gender.valueOf(data[1].toUpperCase());
-        // Local date assumes that yy corresponds to 20yy which is probably the wrong assumption in our use case.
-        // See https://stackoverflow.com/questions/38354151/how-to-force-java-time-localdate-to-assume-19th-century-as-yy-year-patternfor
-        LocalDate birthday = LocalDate.parse(data[2], ofPattern("dd/MM/yy"));
+        LocalDate birthday = changeCenturyIfDateIsInTheFuture(LocalDate.parse(data[2], ofPattern("dd/MM/yy")));
 
         return new Person(name, gender, birthday);
     }
@@ -54,5 +52,20 @@ public record Person(String name, Gender gender, LocalDate birthday) {
         }
 
         return people;
+    }
+
+    /**
+     * Changes the century of a date if it is in the future.
+     * <p>
+     * Local date assumes that yy corresponds to 20yy which is probably the wrong assumption in our
+     * use case as the date is the birthday of a person. As people's life expectancy is around 80
+     * years we can safely assume that the date is in the past if 20yy is greater than the current
+     * year.
+     *
+     * @param date to change
+     * @return the date with the century changed if it was in the future
+     */
+    private static LocalDate changeCenturyIfDateIsInTheFuture(LocalDate date) {
+        return date.getYear() > LocalDate.now().getYear() ? date.minusYears(100) : date;
     }
 }

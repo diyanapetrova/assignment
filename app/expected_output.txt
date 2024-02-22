@@ -1,0 +1,3 @@
+Number of males: 3
+The oldest is: Wes Jackson
+Bill is 2862 days older than Paul.
